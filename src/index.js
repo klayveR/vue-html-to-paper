@@ -1,18 +1,19 @@
 const addStyles = (win, styles) => {
   styles.forEach((style) => {
-    let link = win.document.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('type', 'text/css');
-    link.setAttribute('href', style);
-    win.document.getElementsByTagName('head')[0].appendChild(link);
+    let link = win.document.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("type", "text/css");
+    link.setAttribute("href", style);
+    win.document.getElementsByTagName("head")[0].appendChild(link);
   });
 };
 
 const VueHtmlToPaper = {
-  install (Vue, options = {}) {
-    Vue.prototype.$htmlToPaper = (el, localOptions = {}, cb = () => true) => {
-      let defaultName = '_blank', 
-        defaultSpecs = ['fullscreen=yes','titlebar=yes', 'scrollbars=yes'],
+  install(_i, options = {}) {
+    let globals = _i.prototype || _i.config.globalProperties;
+    globals.$htmlToPaper = (el, localOptions = {}, cb = () => true) => {
+      let defaultName = "_blank",
+        defaultSpecs = ["fullscreen=yes", "titlebar=yes", "scrollbars=yes"],
         defaultStyles = [],
         defaultTimeout = 1000,
         defaultAutoClose = true,
@@ -25,7 +26,7 @@ const VueHtmlToPaper = {
         autoClose = defaultAutoClose,
         windowTitle = defaultWindowTitle,
       } = options;
-      
+
       if (localOptions.name) name = localOptions.name;
       if (localOptions.specs) specs = localOptions.specs;
       if (localOptions.styles) styles = localOptions.styles;
@@ -33,10 +34,10 @@ const VueHtmlToPaper = {
       if (localOptions.autoClose) autoClose = localOptions.autoClose;
       if (localOptions.windowTitle) windowTitle = localOptions.windowTitle;
 
-      specs = !!specs.length ? specs.join(',') : '';
+      specs = !!specs.length ? specs.join(",") : "";
 
       let element = el;
-      if (typeof el === 'string' || el instanceof String) {
+      if (typeof el === "string" || el instanceof String) {
         element = window.document.getElementById(el);
       }
       if (!element) {
@@ -44,7 +45,7 @@ const VueHtmlToPaper = {
         return;
       }
 
-      const url = '';
+      const url = "";
       const win = window.open(url, name, specs);
 
       win.document.write(`
